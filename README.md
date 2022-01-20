@@ -1,2 +1,5 @@
 # crypt
-Various algorithms for finite cyclic fields
+- EEA: Extended Euclidean Algorithm 
+- GRC: Chinese Remainder Algorithm
+- SOE: Sieve of Eratosthenes
+- RSA: 
