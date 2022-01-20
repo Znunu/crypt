@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class GCR {
+
+    int[] a;
+    int[] n;
+    boolean fallTrough;
+    private ArrayList<Integer> lost_n;
+    int x;
+    int N;
+
+    public GCR(int[] a, int[] n, boolean fallTrough) throws Exception {
+
+        this.fallTrough = fallTrough;
+        lost_n = new ArrayList<>();
+        this.a = a;
+        this.n = n;
+        int[] data = algorithm(a, n);
+        x = data[0];
+        N = data[1];
+    }
+
+    private int[] algorithm(int[] a, int[] n) throws Exception {
+
+        if (a.length <= 1) {
+            int[] combined = new int[2];
+            combined[0] = a[0];
+            combined[1] = n[0];
+            return combined;
+        } else {
+
+            int[] aFirstHalf = new int[a.length/2];
+            int[] aSecondHalf = new int[a.length - aFirstHalf.length];
+            int[] nFirstHalf = new int[aFirstHalf.length];
+            int[] nSecondHalf = new int[aSecondHalf.length];
+            aFirstHalf = Arrays.copyOfRange(a,0, aFirstHalf.length);
+            aSecondHalf = Arrays.copyOfRange(a, aFirstHalf.length, aFirstHalf.length + aSecondHalf.length);
+            nFirstHalf = Arrays.copyOfRange(n,0, nFirstHalf.length);
+            nSecondHalf = Arrays.copyOfRange(n, nFirstHalf.length, nFirstHalf.length + nSecondHalf.length);
+            int[] firstHalf = algorithm(aFirstHalf, nFirstHalf);
+            int[] secondHalf = algorithm(aSecondHalf, nSecondHalf);
+            int gcd = new EEA(firstHalf[1], secondHalf[1]).gcd;
+
+            if (firstHalf[0] % gcd != secondHalf[0] % gcd) {
+                if (fallTrough) {
+                    lost_n.add(secondHalf[1]);
+                    return firstHalf;
+                } else {
+                    throw new Exception("Solution doesn't exist. Conflict at factor " + gcd + " between " + firstHalf[0] + " and " + secondHalf[0]);
+                }
+            } else {
+                int[] combined = new int[2];
+                combined[1] = firstHalf[1] * secondHalf[1] / gcd;
+                EEA eea = new EEA(firstHalf[1],secondHalf[1]);
+                int firstHalfInverse = eea.x;
+                int secondHalfInverse = eea.y;
+                combined[0] = (firstHalf[0]*secondHalf[1]*secondHalfInverse + secondHalf[0]*firstHalf[1]*firstHalfInverse)/gcd;
+                combined[0] = ((combined[0] % combined[1]) + combined[1]) % combined[1];
+                return combined;
+            }
+        }
+    }
+
+    public int[] getLostN() {
+        int[] lost = new int[lost_n.size()];
+        for (int i = 0; i < lost.length; i++) {
+          lost[i] = lost_n.get(i);
+        }
+        return lost;
+    }
+
+}
