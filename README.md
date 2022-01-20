@@ -1,5 +1,5 @@
 # crypt
-Various algorithms that operate on/with a ring of integers modulo n
+Various algorithms that operate on/with a ring of integers modulo n. Useful for cryptography.
 
 - EEA: Extended Euclidean Algorithm 
 - GRC: Chinese Remainder Algorithm
