@@ -1,4 +1,4 @@
-# Java files
+# Algorithms folder
 Various algorithms that operate on/with a ring of integers modulo n. Useful for cryptography.
 
 - EEA: Extended Euclidean Algorithm 
@@ -10,7 +10,7 @@ Various algorithms that operate on/with a ring of integers modulo n. Useful for 
 
 #TODO: Implement ECC. Apparently the discrete logarithm problem is harder for the group of elliptic curve points than integers modulo prime
 
-# OTP
+# OTP folder
 ## OTP
 ```console
 usage: otp.py [-h] [-s] key input output
